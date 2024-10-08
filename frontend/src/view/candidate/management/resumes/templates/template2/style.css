@@ -1,0 +1,9 @@
+.bg {
+  clip-path: polygon(0 0, 100% 0%, 100% 75%, 0 100%);
+  background-color: #cccc;
+  height: 200px;
+}
+
+.text-red {
+  color: #ed1c2f !important;
+}

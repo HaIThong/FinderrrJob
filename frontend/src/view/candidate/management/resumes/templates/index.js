@@ -1,13 +1,15 @@
-import { createContext, useContext, useEffect, useState } from "react";
-import { CandidateContext } from "../../layouts/CandidateLayout";
-import { useForm } from "react-hook-form";
-import dayjs from "dayjs";
-import resumeApi from "../../../../../api/resume";
-import { toast } from "react-toastify";
-import { useParams } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
-import Template1 from "./template1";
-import html2canvas from "html2canvas";
+import { createContext, useContext, useEffect, useState } from 'react';
+import { CandidateContext } from '../../layouts/CandidateLayout';
+import { useForm } from 'react-hook-form';
+import dayjs from 'dayjs';
+import resumeApi from '../../../../../api/resume';
+import { toast } from 'react-toastify';
+import { useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import Template1 from './template1';
+import Template2 from './template2';
+import Template3 from './template3';
+import html2canvas from 'html2canvas';
 
 export const TemplateContext = createContext();
 
@@ -36,7 +38,7 @@ export default function Template() {
     reset,
   } = useForm();
 
-  const [fullname, setFullname] = useState("");
+  const [fullname, setFullname] = useState('');
   const [basicInfor, setBasicInfor] = useState({});
   const [cvEducations, setCvEducations] = useState([{}]);
   const [cvExperiences, setCvExperiences] = useState([{}]);
@@ -47,28 +49,28 @@ export default function Template() {
   const [cvActivities, setCvActivities] = useState([{}]);
   const [cvOthers, setCvOthers] = useState([{}]);
   const [parts, setParts] = useState([
-    "personal",
-    "objective",
-    "skill",
-    "certificate",
-    "prize",
-    "other",
-    "education",
-    "experience",
-    "project",
-    "activity",
+    'personal',
+    'objective',
+    'skill',
+    'certificate',
+    'prize',
+    'other',
+    'education',
+    'experience',
+    'project',
+    'activity',
   ]);
   const defaultPartMenu = [
-    { key: "personal", name: "Thông tin cá nhân", on: true },
-    { key: "objective", name: "Mục tiêu nghề nghiệp", on: true },
-    { key: "education", name: "Học vấn", on: true },
-    { key: "experience", name: "Kinh nghiệm", on: true },
-    { key: "project", name: "Dự án", on: true },
-    { key: "skill", name: "Kỹ năng", on: true },
-    { key: "certificate", name: "Chứng chỉ", on: true },
-    { key: "prize", name: "Giải thưởng", on: true },
-    { key: "activity", name: "Hoạt động", on: true },
-    { key: "other", name: "Khác", on: true },
+    { key: 'personal', name: 'Thông tin cá nhân', on: true },
+    { key: 'objective', name: 'Mục tiêu nghề nghiệp', on: true },
+    { key: 'education', name: 'Học vấn', on: true },
+    { key: 'experience', name: 'Kinh nghiệm', on: true },
+    { key: 'project', name: 'Dự án', on: true },
+    { key: 'skill', name: 'Kỹ năng', on: true },
+    { key: 'certificate', name: 'Chứng chỉ', on: true },
+    { key: 'prize', name: 'Giải thưởng', on: true },
+    { key: 'activity', name: 'Hoạt động', on: true },
+    { key: 'other', name: 'Khác', on: true },
   ];
   const [partMenu, setPartMenu] = useState(defaultPartMenu);
 
@@ -118,70 +120,70 @@ export default function Template() {
 
   useEffect(() => {
     if (id) {
-      setCvMode("EDIT");
+      setCvMode('EDIT');
       getEditResume();
     }
   }, [id, setCvMode]);
 
   useEffect(() => {
-    if (cvMode === "CREATE_1") {
+    if (cvMode === 'CREATE_1') {
       if (basicInfor.lastname && basicInfor.firstname)
-        setFullname(basicInfor.lastname + " " + basicInfor.firstname);
-    } else if (cvMode === "EDIT") {
+        setFullname(basicInfor.lastname + ' ' + basicInfor.firstname);
+    } else if (cvMode === 'EDIT') {
       setFullname(basicInfor.fullname);
     }
   }, [basicInfor, cvMode]);
 
   useEffect(() => {
-    if (cvMode === "CREATE_1") {
+    if (cvMode === 'CREATE_1') {
       setBasicInfor(personal);
     }
   }, [cvMode, personal]);
 
   useEffect(() => {
-    if (cvMode === "CREATE_1") {
+    if (cvMode === 'CREATE_1') {
       if (educations.length > 0) setCvEducations(educations);
     }
   }, [cvMode, educations]);
 
   useEffect(() => {
-    if (cvMode === "CREATE_1") {
+    if (cvMode === 'CREATE_1') {
       if (experiences.length > 0) setCvExperiences(experiences);
     }
   }, [cvMode, experiences]);
 
   useEffect(() => {
-    if (cvMode === "CREATE_1") {
+    if (cvMode === 'CREATE_1') {
       if (projects.length > 0) setCvProjects(projects);
     }
   }, [cvMode, projects]);
 
   useEffect(() => {
-    if (cvMode === "CREATE_1") {
+    if (cvMode === 'CREATE_1') {
       if (skills.length > 0) setCvSkills(skills);
     }
   }, [cvMode, skills]);
 
   useEffect(() => {
-    if (cvMode === "CREATE_1") {
+    if (cvMode === 'CREATE_1') {
       if (certificates.length > 0) setCvCertificates(certificates);
     }
   }, [certificates, cvMode]);
 
   useEffect(() => {
-    if (cvMode === "CREATE_1") {
+    if (cvMode === 'CREATE_1') {
       if (prizes.length > 0) setCvPrizes(prizes);
     }
   }, [cvMode, prizes]);
 
   useEffect(() => {
-    if (cvMode === "CREATE_1") {
+    if (cvMode === 'CREATE_1') {
       if (activities.length > 0) setCvActivities(activities);
     }
   }, [activities, cvMode]);
 
   useEffect(() => {
-    if (cvMode === "CREATE_1") {
+    if (cvMode === 'CREATE_1') {
       if (others.length > 0) setCvOthers(others);
     }
   }, [cvMode, others]);
@@ -201,7 +203,7 @@ export default function Template() {
       }
     }
 
-    return dayjs(arr.join("-")).format("YYYY-MM-DD");
+    return dayjs(arr.join('-')).format('YYYY-MM-DD');
   };
 
   const formatDateInPart = (part) => {
@@ -218,10 +220,10 @@ export default function Template() {
   };
 
   const onSubmit = async (data) => {
-    var dob = "";
+    var dob = '';
     if (data.dob) {
-      const [dobDay, dobMonth, dobYear] = data.dob.split("/");
-      dob = dobYear + "-" + dobMonth + "-" + dobDay;
+      const [dobDay, dobMonth, dobYear] = data.dob.split('/');
+      dob = dobYear + '-' + dobMonth + '-' + dobDay;
     }
 
     let educations = [...cvEducations];
@@ -247,69 +249,69 @@ export default function Template() {
         avatar: basicInfor.avatar, // Sử dụng avatar từ trạng thái
         parts_order: JSON.stringify(parts),
       },
-      educations: isPresentInParts("education") ? educations : null,
-      experiences: isPresentInParts("experience") ? experiences : null,
-      projects: isPresentInParts("project") ? projects : null,
-      skills: isPresentInParts("skill") ? skills : null,
-      certificates: isPresentInParts("certificate") ? certificates : null,
-      prizes: isPresentInParts("prize") ? prizes : null,
-      activities: isPresentInParts("activity") ? activities : null,
-      others: isPresentInParts("other") ? others : null,
+      educations: isPresentInParts('education') ? educations : null,
+      experiences: isPresentInParts('experience') ? experiences : null,
+      projects: isPresentInParts('project') ? projects : null,
+      skills: isPresentInParts('skill') ? skills : null,
+      certificates: isPresentInParts('certificate') ? certificates : null,
+      prizes: isPresentInParts('prize') ? prizes : null,
+      activities: isPresentInParts('activity') ? activities : null,
+      others: isPresentInParts('other') ? others : null,
     };
-    if (cvMode.startsWith("CREATE")) {
+    if (cvMode.startsWith('CREATE')) {
       try {
         await resumeApi.create(postData);
-        toast.success("Tạo mới thành công!");
-        nav("/candidate/resumes");
+        toast.success('Tạo mới thành công!');
+        nav('/candidate/resumes');
       } catch (e) {
-        toast.error("Đã có lỗi xảy ra!");
-        console.error(">>Error:", e.response.data.message);
+        toast.error('Đã có lỗi xảy ra!');
+        console.error('>>Error:', e.response.data.message);
       }
-    } else if (cvMode === "EDIT") {
+    } else if (cvMode === 'EDIT') {
       postData = { ...postData, resume_id: id };
       try {
         const res = await resumeApi.update(postData);
-        toast.success("Cập nhật thành công!");
-        nav("/candidate/resumes");
+        toast.success('Cập nhật thành công!');
+        nav('/candidate/resumes');
       } catch (e) {
-        toast.error("Đã có lỗi xảy ra!");
-        console.error(">>Error:", e.response.data.message);
+        toast.error('Đã có lỗi xảy ra!');
+        console.error('>>Error:', e.response.data.message);
       }
     }
   };
 
   const handleDownload = async () => {
-    const { jsPDF } = require("jspdf"); // Import jsPDF
-    let cvElement = document.querySelector("#resume");
-  
+    const { jsPDF } = require('jspdf'); // Import jsPDF
+    let cvElement = document.querySelector('#resume');
+
     let canvas = await html2canvas(cvElement);
-    let imgData = canvas.toDataURL("image/png");
-  
-    let pdf = new jsPDF("p", "mm", "a4");
+    let imgData = canvas.toDataURL('image/png');
+
+    let pdf = new jsPDF('p', 'mm', 'a4');
     let imgWidth = 210;
     let pageHeight = 295;
     let imgHeight = (canvas.height * imgWidth) / canvas.width;
     let heightLeft = imgHeight;
     let position = 0;
-  
-    pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
+
+    pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
     heightLeft -= pageHeight;
-  
+
     while (heightLeft >= 0) {
       position = heightLeft - imgHeight;
       pdf.addPage();
-      pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
+      pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
       heightLeft -= pageHeight;
     }
-  
-    pdf.save(watch("title") + ".pdf");
+
+    pdf.save(watch('title') + '.pdf');
   };
 
   return (
     <TemplateContext.Provider
       value={{ parts, setParts, partMenu, setPartMenu }}
     >
-      <Template1
+      <DynamicTemplate
         basicInfor={basicInfor}
         fullname={fullname}
         cvEducations={cvEducations}
@@ -338,3 +340,21 @@ export default function Template() {
     </TemplateContext.Provider>
   );
 }
+
+const DynamicTemplate = (props) => {
+  const { template } = useContext(CandidateContext);
+
+  if (template === 1) {
+    return <Template1 {...props} />;
+  }
+
+  if (template === 2) {
+    return <Template2 {...props} />;
+  }
+
+  if (template === 3) {
+    return <Template3 {...props} />;
+  }
+
+  return <Template1 {...props} />;
+};

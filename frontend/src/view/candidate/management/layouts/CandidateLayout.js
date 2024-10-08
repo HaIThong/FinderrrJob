@@ -1,19 +1,19 @@
-import "./layout.css";
-import { useNavigate } from "react-router-dom";
+import './layout.css';
+import { useNavigate } from 'react-router-dom';
 // import { AiTwotoneAppstore } from "react-icons/ai";
-import { createContext, useContext, useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import candidateApi from "../../../../api/candidate";
-import educationApi from "../../../../api/education";
-import experienceApi from "../../../../api/experience";
-import projectApi from "../../../../api/project";
-import skillApi from "../../../../api/skill";
-import certificateApi from "../../../../api/certificate";
-import prizeApi from "../../../../api/prize";
-import activityApi from "../../../../api/activity";
-import otherApi from "../../../../api/other";
-import clsx from "clsx";
-import { AppContext } from "../../../../App";
+import { createContext, useContext, useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import candidateApi from '../../../../api/candidate';
+import educationApi from '../../../../api/education';
+import experienceApi from '../../../../api/experience';
+import projectApi from '../../../../api/project';
+import skillApi from '../../../../api/skill';
+import certificateApi from '../../../../api/certificate';
+import prizeApi from '../../../../api/prize';
+import activityApi from '../../../../api/activity';
+import otherApi from '../../../../api/other';
+import clsx from 'clsx';
+import { AppContext } from '../../../../App';
 
 export const CandidateContext = createContext();
 
@@ -21,7 +21,7 @@ function CandidateLayout(props) {
   const nav = useNavigate();
   const { currentPage, setCurrentPage } = useContext(AppContext);
   const isAuth = useSelector((state) => state.candAuth.isAuth);
-  
+
   const [personal, setPersonal] = useState({});
   const [educations, setEducations] = useState([]);
   const [experiences, setExperiences] = useState([]);
@@ -31,7 +31,8 @@ function CandidateLayout(props) {
   const [prizes, setPrizes] = useState([]);
   const [activities, setActivities] = useState([]);
   const [others, setOthers] = useState([]);
-  const [cvMode, setCvMode] = useState("CREATE_0");
+  const [cvMode, setCvMode] = useState('CREATE_0');
+  const [template, setTemplate] = useState(1);
 
   const getPersonal = async () => {
     const res = await candidateApi.getCurrent();
@@ -119,6 +120,8 @@ function CandidateLayout(props) {
         getOthers,
         cvMode,
         setCvMode,
+        template,
+        setTemplate,
       }}
     >
       <div className="d-flex flex-column flex-lg-row">
@@ -128,46 +131,47 @@ function CandidateLayout(props) {
           </div>
           <div
             className={clsx(
-              "d-flex align-items-center ps-lg-5 py-lg-2 px-2 pointer hover-bgt-light",
-              currentPage === "/candidate" && "bg-mlight text-main"
+              'd-flex align-items-center ps-lg-5 py-lg-2 px-2 pointer hover-bgt-light',
+              currentPage === '/candidate' && 'bg-mlight text-main',
             )}
-            onClick={() => handleChangePage("/candidate")}
+            onClick={() => handleChangePage('/candidate')}
           >
             Dashboard
           </div>
           <div
             className={clsx(
-              "d-flex align-items-center ps-lg-5 py-lg-2 px-2 pointer hover-bgt-light",
-              currentPage === "/candidate/profile" && "bg-mlight text-main"
+              'd-flex align-items-center ps-lg-5 py-lg-2 px-2 pointer hover-bgt-light',
+              currentPage === '/candidate/profile' && 'bg-mlight text-main',
             )}
-            onClick={() => handleChangePage("/candidate/profile")}
+            onClick={() => handleChangePage('/candidate/profile')}
           >
             Profile cá nhân
           </div>
           <div
             className={clsx(
-              "d-flex align-items-center ps-lg-5 py-lg-2 px-2 pointer hover-bgt-light",
-              currentPage === "/candidate/resumes" && "bg-mlight text-main"
+              'd-flex align-items-center ps-lg-5 py-lg-2 px-2 pointer hover-bgt-light',
+              currentPage === '/candidate/resumes' && 'bg-mlight text-main',
             )}
-            onClick={() => handleChangePage("/candidate/resumes")}
+            onClick={() => handleChangePage('/candidate/resumes')}
           >
             Quản lý hồ sơ
           </div>
           <div
             className={clsx(
-              "d-flex align-items-center ps-lg-5 py-lg-2 px-2 pointer hover-bgt-light",
-              currentPage === "/candidate/applied-jobs" && "bg-mlight text-main"
+              'd-flex align-items-center ps-lg-5 py-lg-2 px-2 pointer hover-bgt-light',
+              currentPage === '/candidate/applied-jobs' &&
+                'bg-mlight text-main',
             )}
-            onClick={() => handleChangePage("/candidate/applied-jobs")}
+            onClick={() => handleChangePage('/candidate/applied-jobs')}
           >
             Việc làm đã nộp
           </div>
           <div
             className={clsx(
-              "d-flex align-items-center ps-lg-5 py-lg-2 px-2 pointer hover-bgt-light",
-              currentPage === "/candidate/saved-jobs" && "bg-mlight text-main"
+              'd-flex align-items-center ps-lg-5 py-lg-2 px-2 pointer hover-bgt-light',
+              currentPage === '/candidate/saved-jobs' && 'bg-mlight text-main',
             )}
-            onClick={() => handleChangePage("/candidate/saved-jobs")}
+            onClick={() => handleChangePage('/candidate/saved-jobs')}
           >
             Việc làm đã lưu
           </div>

@@ -1,6 +1,5 @@
 /* NewLayout.css */
 
-
 .welcome {
   display: flex;
   justify-content: center;
@@ -9,19 +8,19 @@
   text-align: center;
   margin: 0;
   font-family: 'Arial', sans-serif;
-  background-image: url('C:\Users\User\recruitment_web\frontend\src\view\image\backround.png'); /* Thay đổi đường dẫn */
+  background-image: url('./image/backround.png'); /* Thay đổi đường dẫn */
   background-size: cover; /* Đảm bảo hình ảnh phủ đầy toàn bộ trang */
   background-position: center; /* Căn giữa hình ảnh */
   background-repeat: no-repeat; /* Không lặp lại hình ảnh */
 }
-.who{
+.who {
   height: 914px;
-  width: 840px ;
+  width: 840px;
   background-color: rgba(39, 37, 31, 0.7); /* Màu nền đen mờ */
   padding: 40px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5); /* Bóng đổ */
 }
-.who2{
+.who2 {
   margin-top: 200px;
 }
 .welcome h1 {
