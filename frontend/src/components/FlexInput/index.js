@@ -60,7 +60,15 @@ export default FlexInput;
 
 export const InputReadOnly = React.forwardRef(
   (
-    { className, iconLeft, iconRight, textClass, cvStyle = true, ...props },
+    {
+      className,
+      iconLeft,
+      iconRight,
+      innerClassName,
+      textClass,
+      cvStyle = true,
+      ...props
+    },
     ref,
   ) => {
     return (
@@ -72,6 +80,7 @@ export const InputReadOnly = React.forwardRef(
           className={clsx(
             'resize-none overflow-hidden w-100 border-0 fs-5',
             textClass,
+            innerClassName,
           )}
           readOnly
           ref={ref}

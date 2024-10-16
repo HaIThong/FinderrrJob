@@ -77,7 +77,7 @@ export default function Template() {
   const getEditResume = async () => {
     const res = await resumeApi.getById(id);
     const partsOrder = JSON.parse(res.parts_order);
-
+    console.log();
     setParts(partsOrder);
     setBasicInfor(res.basicInfor);
 

@@ -1,18 +1,19 @@
-import Button from "react-bootstrap/Button";
-import { useContext, useState } from "react";
-import FrameLayout from "../frameLayout";
-import dayjs from "dayjs";
-import { FaUser } from "react-icons/fa";
-import PersonalInforFormDialog from "./PersonalInforFormDialog";
-import { CandidateContext } from "../../../layouts/CandidateLayout";
+import Button from 'react-bootstrap/Button';
+import { useContext, useEffect, useState } from 'react';
+import FrameLayout from '../frameLayout';
+import dayjs from 'dayjs';
+import { FaUser } from 'react-icons/fa';
+import PersonalInforFormDialog from './PersonalInforFormDialog';
+import { CandidateContext } from '../../../layouts/CandidateLayout';
 
 export default function PersonalInfor() {
-  const { personal, getPersonal, updatePersonal } = useContext(CandidateContext);
+  const { personal, getPersonal, updatePersonal } =
+    useContext(CandidateContext);
   const [isEdit, setIsEdit] = useState(false);
   const [hasImg, setHasImg] = useState(false);
   const [avatarPreview, setAvatarPreview] = useState(personal.avatar || null);
   const none = <span>Chưa có</span>;
-  const itemStyle = "border-0 border-bottom w-95 pb-1";
+  const itemStyle = 'border-0 border-bottom w-95 pb-1';
 
   // Xử lý thay đổi khi người dùng tải ảnh lên
   const handleFileChange = (e) => {
@@ -33,11 +34,17 @@ export default function PersonalInfor() {
     setIsEdit(true);
   };
 
+  useEffect(() => {
+    if (personal.avatar) {
+      setAvatarPreview(personal.avatar);
+    }
+  }, [personal.avatar]);
+
   return (
     <FrameLayout title="Thông tin cá nhân" hasaddbtn={false} className="mt-4">
       <hr />
       <div className="d-flex gap-5 flex-wrap align-items-center">
-        <div className="ms-4" style={{ width: "150px", height: "150px" }}>
+        <div className="ms-4" style={{ width: '150px', height: '150px' }}>
           {avatarPreview ? (
             <img
               src={avatarPreview}
@@ -49,7 +56,7 @@ export default function PersonalInfor() {
           ) : (
             <FaUser
               className="rounded-pill text-bg-secondary p-1"
-              style={{ fontSize: "130px" }}
+              style={{ fontSize: '130px' }}
             />
           )}
           <div className="mt-2">
@@ -80,7 +87,7 @@ export default function PersonalInfor() {
             <span className="ts-sm text-secondary">Họ tên</span> <br />
             <span className="ts-smd fw-500">
               {personal.lastname && personal.firstname ? (
-                <>{personal.lastname + " " + personal.firstname}</>
+                <>{personal.lastname + ' ' + personal.firstname}</>
               ) : (
                 none
               )}
@@ -91,8 +98,8 @@ export default function PersonalInfor() {
           <div className={itemStyle}>
             <span className="ts-sm text-secondary">Giới tính</span> <br />
             <span className="ts-smd fw-500">
-              {personal.gender === 0 && "Nam"}
-              {personal.gender === 1 && "Nữ"}
+              {personal.gender === 0 && 'Nam'}
+              {personal.gender === 1 && 'Nữ'}
               {personal.gender === undefined && none}
             </span>
           </div>
@@ -101,7 +108,7 @@ export default function PersonalInfor() {
           <div className={itemStyle}>
             <span className="ts-sm text-secondary">Ngày sinh</span> <br />
             <span className="ts-smd fw-500">
-              {personal.dob ? dayjs(personal.dob).format("DD/MM/YYYY") : none}
+              {personal.dob ? dayjs(personal.dob).format('DD/MM/YYYY') : none}
             </span>
           </div>
         </div>

@@ -10,10 +10,11 @@ import FlexInput, {
   InputReadOnly,
 } from '../../../../../../components/FlexInput';
 import { ContentItem, InforPart } from '../../components';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { CandidateContext } from '../../../layouts/CandidateLayout';
 import clsx from 'clsx';
 import dayjs from 'dayjs';
+import { useReactToPrint } from 'react-to-print';
 
 export default function Template2({
   basicInfor,
@@ -43,7 +44,8 @@ export default function Template2({
   handleDownload,
 }) {
   const { cvMode } = useContext(CandidateContext);
-
+  const contentRef = useRef(null);
+  const reactToPrintFn = useReactToPrint({ contentRef });
   const Skill = ({ infor, index, bgColor }) => {
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
@@ -903,7 +905,7 @@ export default function Template2({
             variant="outline-primary"
             size="sm"
             className="float-end me-5 px-5 py-1"
-            onClick={handleDownload}
+            onClick={reactToPrintFn}
           >
             <span className="fw-600">Tải xuống CV</span>
           </Button>
@@ -918,10 +920,12 @@ export default function Template2({
         </div>
         <div
           id="resume"
+          ref={contentRef}
           className="mx-auto border mt-4 mb-5 p-2 shadow-sm"
           style={{ width: '800px' }}
         >
-          <div className="cv-bg-main ps-1 pe-2 w-100 bg">
+          <div className="position-relative mb-10 cv-bg-main ps-1 pe-2 w-100">
+            <div className="bg-minimal"></div>
             <div className="mt-2 d-flex flex align-items-center w-100">
               <div style={{ width: '75%' }}>
                 <FlexInput

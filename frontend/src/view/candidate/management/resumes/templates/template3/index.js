@@ -10,10 +10,11 @@ import FlexInput, {
   InputReadOnly,
 } from '../../../../../../components/FlexInput';
 import { ContentItem, InforPart } from '../../components';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { CandidateContext } from '../../../layouts/CandidateLayout';
 import clsx from 'clsx';
 import dayjs from 'dayjs';
+import { useReactToPrint } from 'react-to-print';
 
 export default function Template3({
   basicInfor,
@@ -43,6 +44,9 @@ export default function Template3({
   handleDownload,
 }) {
   const { cvMode } = useContext(CandidateContext);
+
+  const contentRef = useRef(null);
+  const reactToPrintFn = useReactToPrint({ contentRef });
 
   const Skill = ({ infor, index, bgColor }) => {
     const [name, setName] = useState('');
@@ -914,7 +918,7 @@ export default function Template3({
             variant="outline-primary"
             size="sm"
             className="float-end me-5 px-5 py-1"
-            onClick={handleDownload}
+            onClick={reactToPrintFn}
           >
             <span className="fw-600">Tải xuống CV</span>
           </Button>
@@ -929,6 +933,7 @@ export default function Template3({
         </div>
         <div
           id="resume"
+          ref={contentRef}
           className="mx-auto border d-flex gap-2 mt-4 mb-5 p-2 shadow-sm"
           style={{ width: '800px' }}
         >
@@ -963,8 +968,7 @@ export default function Template3({
                 style={{ width: '30%', textAlign: 'center' }}
               >
                 <img
-                  // src={basicInfor?.avatar}
-                  src={'/image/avatar.png'}
+                  src={basicInfor?.avatar}
                   alt="avatar"
                   width="100px"
                   height="100px"

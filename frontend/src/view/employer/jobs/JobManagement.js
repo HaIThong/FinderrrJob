@@ -1,16 +1,16 @@
-import { BsEye, BsSearch } from "react-icons/bs";
-import { useEffect, useState } from "react";
-import "./style.css";
-import { useForm } from "react-hook-form";
-import { AiOutlinePlus } from "react-icons/ai";
-import JobDetail from "./JobDetail";
-import JobCreating from "./JobCreating";
-import { useSelector } from "react-redux";
-import jtypeApi from "../../../api/jtype";
-import jlevelApi from "../../../api/jlevel";
-import industryApi from "../../../api/industry";
-import locationApi from "../../../api/location";
-import employerApi from "../../../api/employer";
+import { BsEye, BsSearch } from 'react-icons/bs';
+import { useEffect, useState } from 'react';
+import './style.css';
+import { useForm } from 'react-hook-form';
+import { AiOutlinePlus } from 'react-icons/ai';
+import JobDetail from './JobDetail';
+import JobCreating from './JobCreating';
+import { useSelector } from 'react-redux';
+import jtypeApi from '../../../api/jtype';
+import jlevelApi from '../../../api/jlevel';
+import industryApi from '../../../api/industry';
+import locationApi from '../../../api/location';
+import employerApi from '../../../api/employer';
 
 function JobManagement() {
   const [jobs, setJobs] = useState([]);
@@ -22,7 +22,8 @@ function JobManagement() {
   const { register, handleSubmit } = useForm();
   const company = useSelector((state) => state.employerAuth.current.employer);
   const isAuth = useSelector((state) => state.employerAuth.isAuth);
-
+  const data = useSelector((state) => state.employerAuth);
+  console.log(data);
   const getAllJtypes = async () => {
     const res = await jtypeApi.getAll();
     setJtypes(res.inf);
@@ -42,9 +43,9 @@ function JobManagement() {
   };
 
   const getJobList = async (data) => {
-    let searchKey = "";
+    let searchKey = '';
     if (data) searchKey = data.searchKey;
-    const res = await employerApi.getJobList(company.id, searchKey);
+    const res = await employerApi.getJobList(company?.id, searchKey);
     setJobs(res);
   };
   const handleClickActBtn = (job_inf) => {
@@ -54,7 +55,7 @@ function JobManagement() {
     let temp_jobs = [...jobs];
     const data = { status: status };
     await employerApi.changeJobStatus(job_id, data);
-    alert("Cập nhật thành công!");
+    alert('Cập nhật thành công!');
     temp_jobs[index].is_active = status;
     setJobs(temp_jobs);
   };
@@ -74,13 +75,13 @@ function JobManagement() {
 
   return (
     <>
-      <div className="bg-white ms-4 mt-3" style={{ height: "90%" }}>
-        <div className="pt-3" style={{ marginLeft: "45px" }}>
+      <div className="bg-white ms-4 mt-3" style={{ height: '90%' }}>
+        <div className="pt-3" style={{ marginLeft: '45px' }}>
           <h5 className="text-main">Danh sách việc làm</h5>
-          <div className="clearfix my-3" style={{ width: "93%" }}>
+          <div className="clearfix my-3" style={{ width: '93%' }}>
             <form
               className=" float-start"
-              style={{ width: "35%" }}
+              style={{ width: '35%' }}
               onSubmit={handleSubmit(getJobList)}
             >
               <div className="input-group">
@@ -88,7 +89,7 @@ function JobManagement() {
                   type="text"
                   className="form-control form-control-sm border-end-0"
                   placeholder="Nhập tên, hình thức, cấp bậc việc làm"
-                  {...register("searchKey")}
+                  {...register('searchKey')}
                 />
                 <button type="submit" className="input-group-text bg-white">
                   <BsSearch />
@@ -105,22 +106,25 @@ function JobManagement() {
               Tạo mới
             </button>
           </div>
-          <table className="table border text-center shadow-sm" style={{ width: "93%" }}>
+          <table
+            className="table border text-center shadow-sm"
+            style={{ width: '93%' }}
+          >
             <thead className="table-primary ts-smd">
               <tr>
-                <th style={{ width: "25%" }}>Tên</th>
-                <th style={{ width: "13%" }}>Hình thức</th>
-                <th style={{ width: "13%" }}>Cấp bậc</th>
-                <th style={{ width: "15%" }}>Thời gian đăng</th>
-                <th style={{ width: "13%" }}>Thời hạn</th>
+                <th style={{ width: '25%' }}>Tên</th>
+                <th style={{ width: '13%' }}>Hình thức</th>
+                <th style={{ width: '13%' }}>Cấp bậc</th>
+                <th style={{ width: '15%' }}>Thời gian đăng</th>
+                <th style={{ width: '13%' }}>Thời hạn</th>
                 <th>Trạng thái</th>
                 <th>Hành động</th>
               </tr>
             </thead>
-            <tbody style={{ fontSize: "14px" }}>
+            <tbody style={{ fontSize: '14px' }}>
               {jobs.length > 0 &&
                 jobs.map((item, index) => (
-                  <tr key={"job" + item.id}>
+                  <tr key={'job' + item.id}>
                     <td>{item.jname}</td>
                     <td>{item.jtype_name}</td>
                     <td>{item.jlevel_name} </td>
@@ -143,10 +147,10 @@ function JobManagement() {
                         />
                       </div>
                     </td>
-                    <td style={{ fontSize: "17px" }}>
+                    <td style={{ fontSize: '17px' }}>
                       <BsEye
                         className="text-primary"
-                        style={{ cursor: "pointer" }}
+                        style={{ cursor: 'pointer' }}
                         data-bs-toggle="modal"
                         data-bs-target="#jobDetail"
                         onClick={() => handleClickActBtn(item)}

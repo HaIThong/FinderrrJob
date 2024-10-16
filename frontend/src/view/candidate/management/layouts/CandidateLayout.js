@@ -2,7 +2,7 @@ import './layout.css';
 import { useNavigate } from 'react-router-dom';
 // import { AiTwotoneAppstore } from "react-icons/ai";
 import { createContext, useContext, useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import candidateApi from '../../../../api/candidate';
 import educationApi from '../../../../api/education';
 import experienceApi from '../../../../api/experience';
@@ -14,11 +14,14 @@ import activityApi from '../../../../api/activity';
 import otherApi from '../../../../api/other';
 import clsx from 'clsx';
 import { AppContext } from '../../../../App';
+import authApi from '../../../../api/auth';
+import { candAuthActions } from '../../../../redux/slices/candAuthSlice';
 
 export const CandidateContext = createContext();
 
 function CandidateLayout(props) {
   const nav = useNavigate();
+  const dispatch = useDispatch();
   const { currentPage, setCurrentPage } = useContext(AppContext);
   const isAuth = useSelector((state) => state.candAuth.isAuth);
 
@@ -87,6 +90,17 @@ function CandidateLayout(props) {
     nav(url);
     setCurrentPage(url);
   };
+
+  const getMe = async () => {
+    const res = await authApi.getMe(1);
+    dispatch(candAuthActions.setCurrentCandidate(res));
+  };
+  useEffect(() => {
+    if (localStorage.getItem('candidate_jwt')) {
+      getMe();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <CandidateContext.Provider

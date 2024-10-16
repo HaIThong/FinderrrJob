@@ -41,7 +41,8 @@ class CandidateController extends Controller
 
         $file = $req->file('image');
         if ($file) {
-            $fname = 'avatar_candidate_' . '_' . $candidate->id;
+            $extension = $file->getClientOriginalExtension();
+            $fname = 'avatar_candidate_' . '_' . $candidate->id . '.' . $extension;
             $path =  env('APP_URL') . '/storage/' . $file->storeAs('avatar_images', $fname, 'public');
             $candidate->avatar = $path;
         }

@@ -1,13 +1,14 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 const candAuthSlice = createSlice({
-  name: "candAuth",
+  name: 'candAuth',
   initialState: {
     current: {},
     isAuth: false,
   },
   reducers: {
     setCurrentCandidate: (state, action) => {
+      console.log('setCurrentCandidate', action.payload);
       state.current = action.payload;
       state.isAuth = true;
     },

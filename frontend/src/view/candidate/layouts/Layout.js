@@ -1,20 +1,26 @@
-import "bootstrap/dist/js/bootstrap.js";
-import { Link, useNavigate } from "react-router-dom";
-import { useContext, useEffect, useState } from "react";
-import { BsBell, BsBriefcase, BsBuilding,BsFillCircleFill,BsPerson  } from "react-icons/bs";
+import 'bootstrap/dist/js/bootstrap.js';
+import { Link, useNavigate } from 'react-router-dom';
+import { useContext, useEffect, useState } from 'react';
+import {
+  BsBell,
+  BsBriefcase,
+  BsBuilding,
+  BsFillCircleFill,
+  BsPerson,
+} from 'react-icons/bs';
 
-import { useDispatch, useSelector } from "react-redux";
-import authApi from "../../../api/auth";
-import candMsgApi from "../../../api/candidateMessage";
-import { candAuthActions } from "../../../redux/slices/candAuthSlice";
-import Login from "../auth/Login";
-import Pusher from "pusher-js";
-import BellDialog from "./BellDialog";
-import Stack from "react-bootstrap/Stack";
-import { AppContext } from "../../../App";
-import clsx from "clsx";
+import { useDispatch, useSelector } from 'react-redux';
+import authApi from '../../../api/auth';
+import candMsgApi from '../../../api/candidateMessage';
+import { candAuthActions } from '../../../redux/slices/candAuthSlice';
+import Login from '../auth/Login';
+import Pusher from 'pusher-js';
+import BellDialog from './BellDialog';
+import Stack from 'react-bootstrap/Stack';
+import { AppContext } from '../../../App';
+import clsx from 'clsx';
 
-const user_icon = process.env.PUBLIC_URL + "/image/user_icon.png";
+const user_icon = process.env.PUBLIC_URL + '/image/user_icon.png';
 
 function Layout(props) {
   const nav = useNavigate();
@@ -33,13 +39,13 @@ function Layout(props) {
   const handleLogout = async () => {
     await authApi.logout(1);
     dispatch(candAuthActions.logout());
-    localStorage.removeItem("candidate_jwt");
-    nav("/");
+    localStorage.removeItem('candidate_jwt');
+    nav('/');
   };
 
   const getAllMessages = async () => {
     const res = await candMsgApi.getMsgs(candidate.id);
-    console.log("bell msgs:", res);
+    console.log('bell msgs:', res);
     setBellMsgs(res);
   };
   const handleReadMsg = async (inf) => {
@@ -69,8 +75,8 @@ function Layout(props) {
     }
     for (let i = 0; i < bellMsgs.length; i++) {
       if (bellMsgs[i].isRead === 0) {
-        msg_styles[i] = " text-primary";
-      } else msg_styles[i] = " text-secondary";
+        msg_styles[i] = ' text-primary';
+      } else msg_styles[i] = ' text-secondary';
     }
     setMsgStyles(msg_styles);
   }, [bellMsgs]);
@@ -80,7 +86,7 @@ function Layout(props) {
     dispatch(candAuthActions.setCurrentCandidate(res));
   };
   useEffect(() => {
-    if (localStorage.getItem("candidate_jwt")) {
+    if (localStorage.getItem('candidate_jwt')) {
       getMe();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -89,13 +95,13 @@ function Layout(props) {
   useEffect(() => {
     if (isAuth) {
       getAllMessages();
-      let pusher = new Pusher("5b0ac1136aca9c77eadb", {
-        cluster: "ap1",
+      let pusher = new Pusher('5b0ac1136aca9c77eadb', {
+        cluster: 'ap1',
         encrypted: true,
       });
       let channelName = `candidate-channel_${candidate.id}`;
       let channel = pusher.subscribe(channelName);
-      channel.bind("notification-event", (data) => {
+      channel.bind('notification-event', (data) => {
         // alert("bell message::", JSON.stringify(data));
         getAllMessages();
       });
@@ -114,62 +120,72 @@ function Layout(props) {
         <Stack
           direction="horizontal"
           gap={3}
-          className="fixed-top py-3 px-3" style={{background: "linear-gradient(120deg, #001f3f, #003366)",
-            zIndex: 1000, 
-            padding: "20px",
-            boxShadow: "0 8px 16px rgba(0, 0, 0, 0.3)",}}
+          className="fixed-top py-3 px-3"
+          style={{
+            background: 'linear-gradient(120deg, #001f3f, #003366)',
+            zIndex: 1000,
+            padding: '20px',
+            boxShadow: '0 8px 16px rgba(0, 0, 0, 0.3)',
+          }}
         >
           <Link
             className="nav-link text-light fw-bold fs-5 d-flex align-items-center"
             to="/"
-            onClick={() => setCurrentPage("home")}
+            onClick={() => setCurrentPage('home')}
           >
-            <BsBriefcase className="me-2" />TRANG CHỦ
+            <BsBriefcase className="me-2" />
+            TRANG CHỦ
           </Link>
           <Link
             className={clsx(
-              "nav-link text-light fs-5 d-flex align-items-center",
-              currentPage === "companies" && "text-main"
+              'nav-link text-light fs-5 d-flex align-items-center',
+              currentPage === 'companies' && 'text-main',
             )}
             to="/companies"
-            onClick={() => setCurrentPage("companies")}
+            onClick={() => setCurrentPage('companies')}
           >
-            <BsBuilding className="me-2"/>CÔNG TY
+            <BsBuilding className="me-2" />
+            CÔNG TY
           </Link>
           <Link
             className={clsx(
-              "nav-link text-light fs-5 d-flex align-items-center",
-              currentPage === "jobs" && "text-main"
+              'nav-link text-light fs-5 d-flex align-items-center',
+              currentPage === 'jobs' && 'text-main',
             )}
             to="/jobs"
-            onClick={() => setCurrentPage("jobs")}
+            onClick={() => setCurrentPage('jobs')}
           >
-            <BsBriefcase className="me-2" />CÔNG VIỆC
+            <BsBriefcase className="me-2" />
+            CÔNG VIỆC
           </Link>
           <div className="ms-auto d-flex align-items-center"></div>
           {!isAuth ? (
             <>
-            <div className="btn  text-primary me-2 px-4 py-2 fs-6 d-flex align-items-center">
-              <div
-                data-bs-toggle="modal"
-                data-bs-target="#login-box"
-                className="btn btn-outline-light"
-              >
-                <BsPerson className="me-2"/>Đăng nhập
-              </div>
-              <div className="vr mx-2 border-2"/>
-              <Link to="/sign-up" className="btn btn-outline-light me-2 px-4 py-2 fs-6 d-flex align-items-center">
-              <BsPerson className="me-2"/> Đăng ký
-              </Link>
-              <div className="ms-3 me-2">
-                <a
-                  href="/employer/login"
-                  className=" text-white fw-500 btn btn-accent px-4 py-2 fs-6"
+              <div className="btn  text-primary me-2 px-4 py-2 fs-6 d-flex align-items-center">
+                <div
+                  data-bs-toggle="modal"
+                  data-bs-target="#login-box"
+                  className="btn btn-outline-light"
                 >
-                Nhà tuyển dụng
-                </a>
+                  <BsPerson className="me-2" />
+                  Đăng nhập
+                </div>
+                <div className="vr mx-2 border-2" />
+                <Link
+                  to="/sign-up"
+                  className="btn btn-outline-light me-2 px-4 py-2 fs-6 d-flex align-items-center"
+                >
+                  <BsPerson className="me-2" /> Đăng ký
+                </Link>
+                <div className="ms-3 me-2">
+                  <a
+                    href="/employer/login"
+                    className=" text-white fw-500 btn btn-accent px-4 py-2 fs-6"
+                  >
+                    Nhà tuyển dụng
+                  </a>
+                </div>
               </div>
-            </div>
             </>
           ) : (
             <div className="d-flex align-items-center sidebar-right">
@@ -188,18 +204,18 @@ function Layout(props) {
                 )}
                 <div
                   className={clsx(
-                    "position-absolute bg-white rounded z-index-1 msg-list fw-normal shadow",
-                    showListMsg ? "d-block" : "d-none"
+                    'position-absolute bg-white rounded z-index-1 msg-list fw-normal shadow',
+                    showListMsg ? 'd-block' : 'd-none',
                   )}
                 >
                   {bellMsgs.length > 0 ? (
                     bellMsgs.map((item, index) => (
                       <div
-                        key={"bell_msg" + index}
-                        style={{ cursor: "pointer" }}
+                        key={'bell_msg' + index}
+                        style={{ cursor: 'pointer' }}
                         onClick={() => handleReadMsg(item)}
                         className={
-                          "text-wrap px-2 py-1 hover-bg-1" + msgStyles[index]
+                          'text-wrap px-2 py-1 hover-bg-1' + msgStyles[index]
                         }
                       >
                         {item.name}
@@ -214,12 +230,16 @@ function Layout(props) {
                 <img
                   src={user_icon}
                   alt="user_icon"
-                  style={{ width: "40px" }}
-                    className="rounded-circle border border-light"
+                  style={{ width: '40px' }}
+                  className="rounded-circle border border-light"
                 />
                 &nbsp;
                 <span
-                  style={{ fontSize: "20px", cursor: "pointer",color:"white" }}
+                  style={{
+                    fontSize: '20px',
+                    cursor: 'pointer',
+                    color: 'white',
+                  }}
                   className="dropdown-toggle"
                   data-bs-toggle="dropdown"
                 >
@@ -248,36 +268,37 @@ function Layout(props) {
       </header>
       <main
         className="page-body"
-        style={{ marginTop: "80px", marginBottom:"50px" }}
+        style={{ marginTop: '80px', marginBottom: '50px' }}
       >
         {!isAuth && <Login />}
         {props.children}
       </main>
-      <footer className="border-top py-4"style={{
-            background: "linear-gradient(120deg, #000000, #003366)", // Màu gradient đen pha xanh đậm
-            padding: "20px",
-            boxShadow: "0 8px 16px rgba(0, 0, 0, 0.3)",
-            color:"white" // Bóng đổ mạnh hơn
-  }}>
+      <footer
+        className="border-top py-4"
+        style={{
+          background: 'linear-gradient(120deg, #000000, #003366)', // Màu gradient đen pha xanh đậm
+          padding: '20px',
+          boxShadow: '0 8px 16px rgba(0, 0, 0, 0.3)',
+          color: 'white', // Bóng đổ mạnh hơn
+        }}
+      >
         <div className="container">
           <div className="row">
             <div
               className="col-md-4"
-              style={{ fontSize: "15.6px", paddingLeft: "27px" }}
+              style={{ fontSize: '15.6px', paddingLeft: '27px' }}
             >
               <h5>Contacts</h5>
               <p>Email: thongb2004811</p>
               <p>Điện thoại: 0383251672</p>
-              <p>
-                Địa chỉ: Thới Long, Ô Môn, Cần Thơ
-              </p>
+              <p>Địa chỉ: Thới Long, Ô Môn, Cần Thơ</p>
             </div>
-            <div className="col-md-4" style={{ paddingLeft: "125px" }}>
+            <div className="col-md-4" style={{ paddingLeft: '125px' }}>
               <h5>Chuyên mục</h5>
               <ul className="list-unstyled">
                 <li>
                   <Link
-                    to={"#"}
+                    to={'#'}
                     className="text-secondary text-decoration-none"
                   >
                     Việc làm IT
@@ -285,7 +306,7 @@ function Layout(props) {
                 </li>
                 <li>
                   <Link
-                    to={"#"}
+                    to={'#'}
                     className="text-secondary text-decoration-none"
                   >
                     Việc làm Kế toán
@@ -293,7 +314,7 @@ function Layout(props) {
                 </li>
                 <li>
                   <Link
-                    to={"#"}
+                    to={'#'}
                     className="text-secondary text-decoration-none"
                   >
                     Việc làm Kinh doanh
@@ -301,7 +322,7 @@ function Layout(props) {
                 </li>
                 <li>
                   <Link
-                    to={"#"}
+                    to={'#'}
                     className="text-secondary text-decoration-none"
                   >
                     Việc làm Marketing
@@ -309,12 +330,12 @@ function Layout(props) {
                 </li>
               </ul>
             </div>
-            <div className="col-md-4" style={{ paddingLeft: "120px" }}>
+            <div className="col-md-4" style={{ paddingLeft: '120px' }}>
               <h5>Liên kết</h5>
               <ul className="list-unstyled">
                 <li>
                   <Link
-                    to={"/"}
+                    to={'/'}
                     className="text-secondary text-decoration-none"
                   >
                     Trang chủ
@@ -322,7 +343,7 @@ function Layout(props) {
                 </li>
                 <li>
                   <Link
-                    to={"/jobs"}
+                    to={'/jobs'}
                     className="text-secondary text-decoration-none"
                   >
                     Danh sách việc làm
@@ -330,7 +351,7 @@ function Layout(props) {
                 </li>
                 <li>
                   <Link
-                    to={"#"}
+                    to={'#'}
                     className="text-secondary text-decoration-none"
                   >
                     Hướng dẫn ứng tuyển
@@ -338,7 +359,7 @@ function Layout(props) {
                 </li>
                 <li>
                   <Link
-                    to={"#"}
+                    to={'#'}
                     className="text-secondary text-decoration-none"
                   >
                     Chính sách bảo mật

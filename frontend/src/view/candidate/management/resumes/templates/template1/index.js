@@ -8,10 +8,11 @@ import { MdLocationOn } from 'react-icons/md';
 import { IoIosLink } from 'react-icons/io';
 import FlexInput from '../../../../../../components/FlexInput';
 import { ContentItem, InforPart } from '../../components';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { CandidateContext } from '../../../layouts/CandidateLayout';
 import clsx from 'clsx';
 import dayjs from 'dayjs';
+import { useReactToPrint } from 'react-to-print';
 
 export default function Template1({
   basicInfor,
@@ -41,7 +42,8 @@ export default function Template1({
   handleDownload,
 }) {
   const { cvMode } = useContext(CandidateContext);
-
+  const contentRef = useRef(null);
+  const reactToPrintFn = useReactToPrint({ contentRef });
   const Skill = ({ infor, index, bgColor }) => {
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
@@ -907,14 +909,16 @@ export default function Template1({
               {errors.title?.message}
             </Form.Control.Feedback>
           </Form.Group>
+
           <Button
             variant="outline-primary"
             size="sm"
             className="float-end me-5 px-5 py-1"
-            onClick={handleDownload}
+            onClick={reactToPrintFn}
           >
             <span className="fw-600">Tải xuống CV</span>
           </Button>
+
           <Button
             type="submit"
             variant="outline-primary"
@@ -926,6 +930,7 @@ export default function Template1({
         </div>
         <div
           id="resume"
+          ref={contentRef}
           className="mx-auto border mt-4 mb-5 d-flex flex-column py-2 shadow-sm"
           style={{ width: '800px' }}
         >
